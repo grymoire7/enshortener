@@ -38,7 +38,7 @@ function render_admin_layout($title, $content, $active = '', $flash = null) {
         <!-- Sidebar -->
         <aside id="sidebar" class="hidden md:block w-64 bg-white min-h-screen shadow-md fixed md:relative z-40">
             <div class="p-4 border-b flex justify-between items-center">
-                <h1 class="text-xl font-bold">trcy.cc</h1>
+                <h1 class="text-xl font-bold">Enshortener</h1>
                 <button id="sidebarClose" class="md:hidden text-gray-500">✕</button>
             </div>
             <nav class="mt-4">

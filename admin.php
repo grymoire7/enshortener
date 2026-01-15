@@ -173,26 +173,6 @@ $router->post('/settings/password', function() use ($db) {
     exit;
 });
 
-// POST /settings/site - Update site settings
-$router->post('/settings/site', function() use ($db) {
-    require_admin();
-    require_csrf();
-
-    $base_url = $_POST['base_url'] ?? '';
-
-    if (!filter_var($base_url, FILTER_VALIDATE_URL)) {
-        $_SESSION['flash_error'] = 'Invalid base URL';
-        header('Location: /admin/settings');
-        exit;
-    }
-
-    DB::execute('UPDATE settings SET value = ? WHERE key = ?', [$base_url, 'base_url']);
-
-    $_SESSION['flash_success'] = 'Settings saved';
-    header('Location: /admin/settings');
-    exit;
-});
-
 // POST /settings/reset - Reset everything
 $router->post('/settings/reset', function() use ($db) {
     require_admin();

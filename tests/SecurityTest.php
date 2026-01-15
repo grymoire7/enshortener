@@ -25,7 +25,6 @@ class SecurityTest extends TestCase
                 value TEXT NOT NULL
             );
             INSERT INTO settings (key, value) VALUES ("admin_password_hash", "");
-            INSERT INTO settings (key, value) VALUES ("base_url", "https://test.example");
         ');
 
         $this->config = [

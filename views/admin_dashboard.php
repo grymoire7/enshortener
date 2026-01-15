@@ -48,7 +48,7 @@ function render_dashboard($db, $flash = null) {
     <div class="bg-white rounded-lg shadow">
         <div class="p-4 border-b flex justify-between items-center">
             <h2 class="text-xl font-semibold">Recent URLs</h2>
-            <a href="/admin/urls" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Create New</a>
+            <a href="/admin/urls" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Manage URLs</a>
         </div>
         <table class="w-full">
             <thead>

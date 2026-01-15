@@ -2,7 +2,6 @@
 // views/admin_settings.php
 function render_settings_page($db) {
     $csrf_token = csrf_token();
-    $base_url = DB::fetch('SELECT value FROM settings WHERE key = ?', ['base_url'])['value'] ?? '';
 
     $error = $_SESSION['flash_error'] ?? null;
     $success = $_SESSION['flash_success'] ?? null;
@@ -35,18 +34,6 @@ function render_settings_page($db) {
                 <input type="password" name="confirm_password" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required minlength="8">
             </div>
             <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Change Password</button>
-        </form>
-    </div>
-
-    <div class="bg-white rounded-lg shadow p-6 mb-6">
-        <h2 class="text-xl font-semibold mb-4">Site Settings</h2>
-        <form method="POST" action="/admin/settings/site" class="max-w-md">
-            <input type="hidden" name="csrf_token" value="{$csrf_token}">
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2">Base URL</label>
-                <input type="url" name="base_url" value="{$base_url}" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-            </div>
-            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Save Settings</button>
         </form>
     </div>
 
