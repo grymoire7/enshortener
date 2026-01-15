@@ -28,3 +28,4 @@
 
 # Git worktrees
 .worktrees/
+/vendor/
