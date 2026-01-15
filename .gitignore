@@ -29,9 +29,13 @@
 # Git worktrees
 .worktrees/
 /vendor/
+/node_modules/
 
 # PHPUnit cache
 .phpunit.cache/
 
 # Setup file contains admin password
 setup.txt
+
+# Local database
+database.sqlite

@@ -16,6 +16,10 @@ A self-hosted URL shortener with analytics, designed for personal use on shared 
 - SQLite3 extension
 - Apache with .htaccess support (or equivalent)
 
+### Development Requirements
+
+- Node.js 18+ and npm (for building CSS)
+
 ## Installation
 
 1. Upload all files to your web server
@@ -73,6 +77,9 @@ rm database.sqlite setup.txt
 ├── server.php          # Local development router
 ├── config.php          # Configuration
 ├── database.sqlite     # SQLite database
+├── css/                # Stylesheets
+│   ├── input.css       # Tailwind input (dev)
+│   └── compiled.css    # Built CSS (production)
 ├── lib/                # Helper functions
 ├── views/              # PHP templates
 ├── tests/              # PHPUnit tests
@@ -88,10 +95,33 @@ rm database.sqlite setup.txt
 
 ## Development
 
-### Running Tests
+### Building CSS
+
+The application uses Tailwind CSS for styling. To build the CSS:
+
+```bash
+# Install dependencies
+npm install
+
+# Build CSS (one-time)
+npm run build:css
+
+# Watch for changes and rebuild automatically
+npm run watch:css
+```
+
+**Note:** The built `css/compiled.css` file is included in the repository, so you don't need to build CSS for deployment. The pre-built CSS is ready to use.
+
+### Running Unit Tests
 
 ```bash
 phpunit
+```
+
+### PHP Syntax Check
+
+```bash
+git ls-files '*.php' | xargs -n1 -P4 php -l
 ```
 
 ### Test Coverage

@@ -1,0 +1,22 @@
+{
+  "name": "trcy.cc",
+  "version": "1.0.0",
+  "description": "A self-hosted URL shortener with analytics, designed for personal use on shared hosting.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "lib": "lib",
+    "test": "tests"
+  },
+  "scripts": {
+    "build:css": "tailwindcss -i css/input.css -o css/compiled.css --minify",
+    "watch:css": "tailwindcss -i css/input.css -o css/compiled.css --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "tailwindcss": "^4.1.18"
+  }
+}

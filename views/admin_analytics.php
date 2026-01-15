@@ -40,9 +40,11 @@ function render_analytics_page($db, $url_id) {
     $chart_labels = [];
     $chart_data = [];
     foreach ($clicks_over_time as $row) {
-        $chart_labels[] = "'" . $row['date'] . "'";
+        $chart_labels[] = $row['date'];
         $chart_data[] = $row['clicks'];
     }
+    $chart_labels_json = json_encode($chart_labels);
+    $chart_data_json = json_encode($chart_data);
 
     // Build referrers table
     $referrers_html = '';
@@ -132,10 +134,10 @@ const ctx = document.getElementById('clicksChart').getContext('2d');
 new Chart(ctx, {
     type: 'line',
     data: {
-        labels: [{implode(', ', $chart_labels)}],
+        labels: {$chart_labels_json},
         datasets: [{
             label: 'Clicks',
-            data: [{implode(', ', $chart_data)}],
+            data: {$chart_data_json},
             borderColor: 'rgb(59, 130, 246)',
             backgroundColor: 'rgba(59, 130, 246, 0.1)',
             fill: true,

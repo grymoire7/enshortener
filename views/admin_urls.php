@@ -48,7 +48,7 @@ function render_urls_page($db, $page = 1, $flash = null) {
 <div>
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-3xl font-bold">URLs</h1>
-        <button onclick="document.getElementById('createModal').classList.remove('hidden')" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Create New URL</button>
+        <button onclick="document.getElementById('createModal').showModal()" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Create New URL</button>
     </div>
 
     {$flash_html}
@@ -88,7 +88,7 @@ function render_urls_page($db, $page = 1, $flash = null) {
                 <p class="text-gray-500 text-sm mt-1">Leave empty to auto-generate</p>
             </div>
             <div class="flex justify-end space-x-2">
-                <button type="button" onclick="document.getElementById('createModal').classList.add('hidden')" class="px-4 py-2 border rounded-lg hover:bg-gray-100">Cancel</button>
+                <button type="button" onclick="document.getElementById('createModal').close()" class="px-4 py-2 border rounded-lg hover:bg-gray-100">Cancel</button>
                 <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Create</button>
             </div>
         </form>
