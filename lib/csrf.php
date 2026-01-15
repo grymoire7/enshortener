@@ -23,7 +23,10 @@ function verify_csrf($token) {
 
 function require_csrf() {
     $token = $_POST['csrf_token'] ?? '';
+    if (empty($token)) {
+        die('CSRF token missing from request');
+    }
     if (!verify_csrf($token)) {
-        die('CSRF validation failed');
+        die('CSRF validation failed. Please try again. If this persists, clear your browser cookies and try again.');
     }
 }
