@@ -1,0 +1,22 @@
+{
+    "name": "trcycc/url-shortener",
+    "description": "Self-hosted URL shortener with analytics",
+    "type": "project",
+    "require": {
+        "php": ">=7.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^12.0"
+    },
+    "autoload": {
+        "classmap": [
+            "lib/",
+            "router.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    }
+}

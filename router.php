@@ -26,8 +26,10 @@ class Router {
     public function dispatch($uri, $method) {
         // Remove query string
         $uri = strtok($uri, '?');
-        // Remove trailing slash
-        $uri = rtrim($uri, '/');
+        // Remove trailing slash, but preserve root
+        if ($uri !== '/') {
+            $uri = rtrim($uri, '/');
+        }
 
         foreach ($this->routes as $route) {
             if ($route['method'] !== $method) {
