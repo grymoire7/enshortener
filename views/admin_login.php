@@ -1,6 +1,7 @@
 <?php
 // views/admin_login.php
 function render_login_page($error = '') {
+    $csrf_token = csrf_token();
     $error_html = $error ? '<div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4">' . htmlspecialchars($error) . '</div>' : '';
 
     $content = <<<HTML
@@ -9,7 +10,7 @@ function render_login_page($error = '') {
         <h1 class="text-2xl font-bold mb-6 text-center">Admin Login</h1>
         {$error_html}
         <form method="POST" action="/admin/login">
-            <input type="hidden" name="csrf_token" value="{csrf_token()}">
+            <input type="hidden" name="csrf_token" value="{$csrf_token}">
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2">Password</label>
                 <input type="password" name="password" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required autofocus>

@@ -37,7 +37,6 @@ class DBTest extends TestCase
         // Reset static PDO between tests
         $reflection = new ReflectionClass(DB::class);
         $property = $reflection->getProperty('pdo');
-        $property->setAccessible(true);
         $property->setValue(null, null);
     }
 
@@ -50,7 +49,6 @@ class DBTest extends TestCase
         // Reset static PDO
         $reflection = new ReflectionClass(DB::class);
         $property = $reflection->getProperty('pdo');
-        $property->setAccessible(true);
         $property->setValue(null, null);
     }
 

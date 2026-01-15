@@ -63,6 +63,9 @@ function render_analytics_page($db, $url_id) {
         $clicks_html .= '</tr>';
     }
 
+    // Format data for use in heredoc
+    $created_at = date('M j, Y', strtotime($url['created_at']));
+
     $content = <<<HTML
 <div>
     <div class="mb-6">
@@ -79,7 +82,7 @@ function render_analytics_page($db, $url_id) {
             </div>
             <div>
                 <div class="text-gray-500 text-sm">Created</div>
-                <div class="text-lg">{date('M j, Y', strtotime($url['created_at']))}</div>
+                <div class="text-lg">{$created_at}</div>
             </div>
         </div>
     </div>

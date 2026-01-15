@@ -1,6 +1,7 @@
 <?php
 // views/admin_urls.php
 function render_urls_page($db, $page = 1, $flash = null) {
+    $csrf_token = csrf_token();
     $per_page = 20;
     $offset = ($page - 1) * $per_page;
 
@@ -76,7 +77,7 @@ function render_urls_page($db, $page = 1, $flash = null) {
     <div class="bg-white rounded-lg p-6 w-full max-w-md">
         <h2 class="text-xl font-bold mb-4">Create Short URL</h2>
         <form method="POST" action="/admin/urls">
-            <input type="hidden" name="csrf_token" value="{csrf_token()}">
+            <input type="hidden" name="csrf_token" value="{$csrf_token}">
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2">Long URL</label>
                 <input type="url" name="long_url" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required placeholder="https://example.com/very/long/url">
@@ -100,7 +101,7 @@ function deleteUrl(id, code) {
         const form = document.createElement('form');
         form.method = 'POST';
         form.action = '/admin/urls/' + id + '/delete';
-        form.innerHTML = '<input type="hidden" name="csrf_token" value="{csrf_token()}">';
+        form.innerHTML = '<input type="hidden" name="csrf_token" value="{$csrf_token}">';
         document.body.appendChild(form);
         form.submit();
     }

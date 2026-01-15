@@ -1,6 +1,7 @@
 <?php
 // views/admin_layout.php
 function render_admin_layout($title, $content, $active = '', $flash = null) {
+    $csrf_token = csrf_token();
     $setup_warning = setup_file_exists() ? '<div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4">Warning: setup.txt still exists. Delete it after saving your password!</div>' : '';
     $flash_html = $flash ? '<div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4">' . htmlspecialchars($flash) . '</div>' : '';
 
@@ -45,7 +46,7 @@ function render_admin_layout($title, $content, $active = '', $flash = null) {
             </nav>
             <div class="absolute bottom-0 w-64 p-4 border-t bg-white">
                 <form method="POST" action="/admin/logout">
-                    <input type="hidden" name="csrf_token" value="{csrf_token()}">
+                    <input type="hidden" name="csrf_token" value="{$csrf_token}">
                     <button type="submit" class="w-full text-left px-4 py-2 hover:bg-gray-100 rounded">Logout</button>
                 </form>
             </div>
