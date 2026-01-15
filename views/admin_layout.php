@@ -30,11 +30,15 @@ function render_admin_layout($title, $content, $active = '', $flash = null) {
 </head>
 <body class="bg-gray-50 min-h-screen">
     {$setup_warning}
+    <div class="flex md:hidden">
+        <button id="sidebarToggle" class="fixed top-4 left-4 z-50 bg-white p-2 rounded shadow">☰</button>
+    </div>
     <div class="flex">
         <!-- Sidebar -->
-        <aside class="w-64 bg-white min-h-screen shadow-md">
-            <div class="p-4 border-b">
+        <aside id="sidebar" class="hidden md:block w-64 bg-white min-h-screen shadow-md fixed md:relative z-40">
+            <div class="p-4 border-b flex justify-between items-center">
                 <h1 class="text-xl font-bold">trcy.cc</h1>
+                <button id="sidebarClose" class="md:hidden text-gray-500">✕</button>
             </div>
             <nav class="mt-4">
                 {$nav_html}
@@ -48,11 +52,31 @@ function render_admin_layout($title, $content, $active = '', $flash = null) {
         </aside>
 
         <!-- Main content -->
-        <main class="flex-1 p-8">
+        <main class="flex-1 p-4 md:p-8 w-full">
             {$flash_html}
             {$content}
         </main>
     </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const sidebar = document.getElementById('sidebar');
+        const toggle = document.getElementById('sidebarToggle');
+        const close = document.getElementById('sidebarClose');
+
+        if (toggle) {
+            toggle.addEventListener('click', function() {
+                sidebar.classList.toggle('hidden');
+                sidebar.classList.toggle('fixed');
+                sidebar.classList.toggle('inset-0');
+            });
+        }
+        if (close) {
+            close.addEventListener('click', function() {
+                sidebar.classList.add('hidden');
+            });
+        }
+    });
+    </script>
 </body>
 </html>
 HTML;
