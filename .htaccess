@@ -1,0 +1,13 @@
+RewriteEngine On
+RewriteRule ^([^/]+)/?$ index.php?code=$1 [L,QSA]
+RewriteRule ^admin(?:/.*)?$ admin.php [L,QSA]
+
+# Protect sensitive files
+<Files "setup.txt">
+    Order allow,deny
+    Deny from all
+</Files>
+<FilesMatch "\.(sqlite|db)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
