@@ -25,6 +25,30 @@ A self-hosted URL shortener with analytics, designed for personal use on shared 
 5. Login with the generated password
 6. Delete `setup.txt` after saving your password
 
+## Local Testing
+
+You can test the application locally using PHP's built-in web server:
+
+```bash
+# Start the development server
+php -S localhost:8000 server.php
+```
+
+Then visit:
+- http://localhost:8000/admin - Admin panel
+- http://localhost:8000/abc - Short URL redirect (where `abc` is a short code)
+
+**Note:** The `server.php` file is a router script for local development only. On production servers with Apache, the `.htaccess` file handles URL rewriting.
+
+### Resetting Local Database
+
+To start fresh locally:
+
+```bash
+rm database.sqlite setup.txt
+# Then visit /admin to generate a new password
+```
+
 ## Usage
 
 ### Creating a URL
@@ -46,11 +70,13 @@ A self-hosted URL shortener with analytics, designed for personal use on shared 
 /
 ├── admin.php           # Admin interface entry point
 ├── index.php           # Short URL redirect handler
+├── server.php          # Local development router
 ├── config.php          # Configuration
 ├── database.sqlite     # SQLite database
 ├── lib/                # Helper functions
 ├── views/              # PHP templates
-└── .htaccess           # URL rewriting
+├── tests/              # PHPUnit tests
+└── .htaccess           # URL rewriting (Apache)
 ```
 
 ## Security
