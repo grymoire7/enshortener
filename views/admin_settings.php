@@ -62,5 +62,5 @@ function render_settings_page($db) {
 HTML;
 
     require_once __DIR__ . '/admin_layout.php';
-    render_admin_layout('Settings', $content, '/settings');
+    return render_admin_layout('Settings', $content, '/settings');
 }

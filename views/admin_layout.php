@@ -81,4 +81,5 @@ function render_admin_layout($title, $content, $active = '', $flash = null) {
 </body>
 </html>
 HTML;
+    return true;
 }

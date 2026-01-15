@@ -51,7 +51,7 @@ $router->get('/', function() use ($db) {
     $flash = $_SESSION['flash_success'] ?? null;
     unset($_SESSION['flash_success']);
     require_once __DIR__ . '/views/admin_dashboard.php';
-    render_dashboard($db, $flash);
+    return render_dashboard($db, $flash);
 });
 
 // POST /logout
@@ -67,7 +67,7 @@ $router->get('/urls', function() use ($db) {
     require_admin();
     $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
     require_once __DIR__ . '/views/admin_urls.php';
-    render_urls_page($db, $page);
+    return render_urls_page($db, $page);
 });
 
 // POST /urls - Create URL
@@ -126,14 +126,14 @@ $router->post('/urls/:id/delete', function($id) use ($db) {
 $router->get('/analytics/:id', function($id) use ($db) {
     require_admin();
     require_once __DIR__ . '/views/admin_analytics.php';
-    render_analytics_page($db, $id);
+    return render_analytics_page($db, $id);
 });
 
 // GET /settings - Settings page
 $router->get('/settings', function() use ($db) {
     require_admin();
     require_once __DIR__ . '/views/admin_settings.php';
-    render_settings_page($db);
+    return render_settings_page($db);
 });
 
 // POST /settings/password - Change password

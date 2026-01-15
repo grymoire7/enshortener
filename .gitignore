@@ -29,3 +29,6 @@
 # Git worktrees
 .worktrees/
 /vendor/
+
+# PHPUnit cache
+.phpunit.cache/

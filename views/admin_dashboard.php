@@ -68,5 +68,5 @@ function render_dashboard($db, $flash = null) {
 HTML;
 
     require_once __DIR__ . '/admin_layout.php';
-    render_admin_layout('Dashboard', $content, '/', $flash);
+    return render_admin_layout('Dashboard', $content, '/', $flash);
 }

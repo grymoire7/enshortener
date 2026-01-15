@@ -156,5 +156,5 @@ new Chart(ctx, {
 HTML;
 
     require_once __DIR__ . '/admin_layout.php';
-    render_admin_layout('Analytics: ' . $url['short_code'], $content, '');
+    return render_admin_layout('Analytics: ' . $url['short_code'], $content, '');
 }

@@ -110,5 +110,5 @@ function deleteUrl(id, code) {
 HTML;
 
     require_once __DIR__ . '/admin_layout.php';
-    render_admin_layout('URLs', $content, '/urls', $flash);
+    return render_admin_layout('URLs', $content, '/urls', $flash);
 }
