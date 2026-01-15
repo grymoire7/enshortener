@@ -55,6 +55,73 @@ $router->post('/logout', function() {
     exit;
 });
 
+// GET /urls - List URLs
+$router->get('/urls', function() use ($db) {
+    require_admin();
+    $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+    require_once __DIR__ . '/views/admin_urls.php';
+    render_urls_page($db, $page);
+});
+
+// POST /urls - Create URL
+$router->post('/urls', function() use ($db, $config) {
+    require_admin();
+    require_csrf();
+
+    $long_url = $_POST['long_url'] ?? '';
+    $short_code = $_POST['short_code'] ?? '';
+
+    // Validate URL
+    if (!filter_var($long_url, FILTER_VALIDATE_URL)) {
+        $_SESSION['flash_error'] = 'Invalid URL';
+        header('Location: /admin/urls');
+        exit;
+    }
+
+    // Generate short code if not provided
+    if (empty($short_code)) {
+        do {
+            $short_code = substr(bin2hex(random_bytes(4)), 0, 6);
+        } while (DB::fetch('SELECT id FROM urls WHERE short_code = ?', [$short_code]));
+    }
+
+    // Check for duplicate
+    if (DB::fetch('SELECT id FROM urls WHERE short_code = ?', [$short_code])) {
+        $_SESSION['flash_error'] = 'Short code already exists';
+        header('Location: /admin/urls');
+        exit;
+    }
+
+    // Create URL
+    DB::execute(
+        'INSERT INTO urls (short_code, long_url) VALUES (?, ?)',
+        [$short_code, $long_url]
+    );
+
+    $_SESSION['flash_success'] = 'URL created successfully';
+    header('Location: /admin/urls');
+    exit;
+});
+
+// POST /urls/:id/delete - Delete URL
+$router->post('/urls/:id/delete', function($id) use ($db) {
+    require_admin();
+    require_csrf();
+
+    DB::execute('DELETE FROM urls WHERE id = ?', [$id]);
+
+    $_SESSION['flash_success'] = 'URL deleted';
+    header('Location: /admin/urls');
+    exit;
+});
+
+// GET /analytics/:id - Analytics for a URL
+$router->get('/analytics/:id', function($id) use ($db) {
+    require_admin();
+    require_once __DIR__ . '/views/admin_analytics.php';
+    render_analytics_page($db, $id);
+});
+
 // Dispatch
 $uri = strtok($_SERVER['REQUEST_URI'], '?');
 $method = $_SERVER['REQUEST_METHOD'];
