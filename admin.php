@@ -122,6 +122,84 @@ $router->get('/analytics/:id', function($id) use ($db) {
     render_analytics_page($db, $id);
 });
 
+// GET /settings - Settings page
+$router->get('/settings', function() use ($db) {
+    require_admin();
+    require_once __DIR__ . '/views/admin_settings.php';
+    render_settings_page($db);
+});
+
+// POST /settings/password - Change password
+$router->post('/settings/password', function() use ($db) {
+    require_admin();
+    require_csrf();
+
+    $current = $_POST['current_password'] ?? '';
+    $new = $_POST['new_password'] ?? '';
+    $confirm = $_POST['confirm_password'] ?? '';
+
+    // Verify current password
+    $hash = DB::fetch('SELECT value FROM settings WHERE key = ?', ['admin_password_hash'])['value'];
+    if (!password_verify($current, $hash)) {
+        $_SESSION['flash_error'] = 'Current password is incorrect';
+        header('Location: /admin/settings');
+        exit;
+    }
+
+    if ($new !== $confirm) {
+        $_SESSION['flash_error'] = 'New passwords do not match';
+        header('Location: /admin/settings');
+        exit;
+    }
+
+    if (strlen($new) < 8) {
+        $_SESSION['flash_error'] = 'Password must be at least 8 characters';
+        header('Location: /admin/settings');
+        exit;
+    }
+
+    $new_hash = password_hash($new, PASSWORD_DEFAULT);
+    DB::execute('UPDATE settings SET value = ? WHERE key = ?', [$new_hash, 'admin_password_hash']);
+
+    $_SESSION['flash_success'] = 'Password changed successfully';
+    header('Location: /admin/settings');
+    exit;
+});
+
+// POST /settings/site - Update site settings
+$router->post('/settings/site', function() use ($db) {
+    require_admin();
+    require_csrf();
+
+    $base_url = $_POST['base_url'] ?? '';
+
+    if (!filter_var($base_url, FILTER_VALIDATE_URL)) {
+        $_SESSION['flash_error'] = 'Invalid base URL';
+        header('Location: /admin/settings');
+        exit;
+    }
+
+    DB::execute('UPDATE settings SET value = ? WHERE key = ?', [$base_url, 'base_url']);
+
+    $_SESSION['flash_success'] = 'Settings saved';
+    header('Location: /admin/settings');
+    exit;
+});
+
+// POST /settings/reset - Reset everything
+$router->post('/settings/reset', function() use ($db) {
+    require_admin();
+    require_csrf();
+
+    DB::execute('DELETE FROM clicks');
+    DB::execute('DELETE FROM urls');
+    DB::execute('UPDATE settings SET value = ? WHERE key = ?', ['', 'admin_password_hash']);
+
+    // Redirect to login which will trigger setup
+    header('Location: /admin/login');
+    exit;
+});
+
 // Dispatch
 $uri = strtok($_SERVER['REQUEST_URI'], '?');
 $method = $_SERVER['REQUEST_METHOD'];
