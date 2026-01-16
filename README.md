@@ -25,9 +25,8 @@ A self-hosted URL shortener with analytics, designed for personal use on shared 
 1. Upload all files to your web server
 2. Ensure `database.sqlite` is writable (chmod 666)
 3. Visit `/admin` in your browser
-4. Your admin password will be auto-generated and saved to `setup.txt`
-5. Login with the generated password
-6. Delete `setup.txt` after saving your password
+4. Set your admin password on the setup screen
+5. Login with your password
 
 ## Local Testing
 
@@ -44,13 +43,22 @@ Then visit:
 
 **Note:** The `server.php` file is a router script for local development only. On production servers with Apache, the `.htaccess` file handles URL rewriting.
 
-### Resetting Local Database
+### Resetting the Admin Password
+
+To reset your admin password:
+
+```bash
+touch reset.txt
+# Then visit /admin to set a new password
+```
+
+### Resetting the Database
 
 To start fresh locally:
 
 ```bash
-rm database.sqlite setup.txt
-# Then visit /admin to generate a new password
+rm database.sqlite
+# Then visit /admin to set up again
 ```
 
 ## Usage

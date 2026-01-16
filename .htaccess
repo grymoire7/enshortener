@@ -3,7 +3,7 @@ RewriteRule ^([^/]+)/?$ index.php?code=$1 [L,QSA]
 RewriteRule ^admin(?:/.*)?$ admin.php [L,QSA]
 
 # Protect sensitive files
-<Files "setup.txt">
+<Files "reset.txt">
     Order allow,deny
     Deny from all
 </Files>
