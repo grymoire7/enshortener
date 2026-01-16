@@ -1,6 +1,16 @@
 RewriteEngine On
-RewriteRule ^([^/]+)/?$ index.php?code=$1 [L,QSA]
+RewriteBase /
+
+# Admin routes
 RewriteRule ^admin(?:/.*)?$ admin.php [L,QSA]
+
+# Root URL
+RewriteRule ^$ index.php [L,QSA]
+
+# Short codes (only if not an actual file/directory)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([^/]+)/?$ index.php?code=$1 [L,QSA]
 
 # Protect sensitive files
 <Files "reset.txt">
