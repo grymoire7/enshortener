@@ -29,31 +29,35 @@ function render_admin_layout($title, $content, $active = '', $flash = null) {
     <title>{$title} - Admin</title>
     <link rel="stylesheet" href="/css/compiled.css">
 </head>
-<body class="bg-gray-50 min-h-screen">
-    {$setup_warning}
-    <div class="flex md:hidden">
-        <button id="sidebarToggle" class="fixed top-4 left-4 z-50 bg-white p-2 rounded shadow">☰</button>
-    </div>
-    <div class="flex">
-        <!-- Sidebar -->
-        <aside id="sidebar" class="hidden md:block w-64 bg-white min-h-screen shadow-md fixed md:relative z-40">
-            <div class="p-4 border-b flex justify-between items-center">
-                <h1 class="text-xl font-bold">Enshortener</h1>
-                <button id="sidebarClose" class="md:hidden text-gray-500">✕</button>
-            </div>
-            <nav class="mt-4">
-                {$nav_html}
-            </nav>
-            <div class="absolute bottom-0 w-64 p-4 border-t bg-white">
-                <form method="POST" action="/admin/logout">
+<body class="bg-gray-50 m-0 p-0">
+    <div class="admin-layout">
+        <!-- Masthead -->
+        <header class="admin-masthead bg-white shadow-sm border-b">
+            <div class="flex items-center justify-between px-4 md:px-8 py-4">
+                <div class="flex items-center gap-4">
+                    <button id="sidebarToggle" class="md:hidden text-gray-600 p-2">☰</button>
+                    <h1 class="text-xl font-bold">Enshortener</h1>
+                </div>
+                <form method="POST" action="/admin/logout" class="inline">
                     <input type="hidden" name="csrf_token" value="{$csrf_token}">
-                    <button type="submit" class="w-full text-left px-4 py-2 hover:bg-gray-100 rounded">Logout</button>
+                    <button type="submit" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded hover:bg-gray-100">Logout</button>
                 </form>
             </div>
+        </header>
+
+        <!-- Sidebar -->
+        <aside id="sidebar" class="admin-sidebar bg-white border-r">
+            <div class="flex justify-end md:hidden p-2 border-b">
+                <button id="sidebarClose" class="text-gray-500">✕</button>
+            </div>
+            <nav class="py-4">
+                {$nav_html}
+            </nav>
         </aside>
 
         <!-- Main content -->
-        <main class="flex-1 p-4 md:p-8 w-full">
+        <main class="admin-main p-4 md:p-8">
+            {$setup_warning}
             {$flash_html}
             {$content}
         </main>
@@ -66,14 +70,12 @@ function render_admin_layout($title, $content, $active = '', $flash = null) {
 
         if (toggle) {
             toggle.addEventListener('click', function() {
-                sidebar.classList.toggle('hidden');
-                sidebar.classList.toggle('fixed');
-                sidebar.classList.toggle('inset-0');
+                sidebar.classList.toggle('mobile-open');
             });
         }
         if (close) {
             close.addEventListener('click', function() {
-                sidebar.classList.add('hidden');
+                sidebar.classList.remove('mobile-open');
             });
         }
     });
