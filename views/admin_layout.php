@@ -35,7 +35,7 @@ function render_admin_layout($title, $content, $active = '', $flash = null) {
             <div class="flex items-center justify-between px-4 md:px-8 py-4">
                 <div class="flex items-center gap-4">
                     <button id="sidebarToggle" class="md:hidden text-gray-600 p-2">☰</button>
-                    <h1 class="text-xl font-bold">Enshortener</h1>
+                    <h1 class="text-xl font-bold"><a href="/" class="hover:text-blue-600 transition">Enshortener</a></h1>
                 </div>
                 <form method="POST" action="/admin/logout" class="inline">
                     <input type="hidden" name="csrf_token" value="{$csrf_token}">

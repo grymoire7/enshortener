@@ -31,9 +31,31 @@ HTML;
 $code = $_GET['code'] ?? '';
 
 if (empty($code)) {
-    // No code provided, show home page or 404
-    http_response_code(404);
-    die('404 - Not Found');
+    // No code provided, show landing page
+    $year = date('Y');
+    echo <<<HTML
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enshortener</title>
+    <link rel="stylesheet" href="/css/compiled.css">
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded-lg shadow-md max-w-md text-center">
+        <h1 class="text-2xl font-bold mb-4">Enshortener</h1>
+        <p class="border-t text-gray-600 mb-6">A simple URL shortener with analytics, designed for personal use on shared hosting.</p>
+        <div class="flex justify-center gap-4 mb-6">
+            <a href="https://github.com/grymoire7/enshortener" class="inline-block border bg-green-500 border-gray-300 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition">Project Home</a>
+            <a href="/admin" class="inline-block bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">Admin Panel</a>
+        </div>
+        <p class="text-gray-400 text-sm">Copyright &copy; {$year}</p>
+    </div>
+</body>
+</html>
+HTML;
+    exit;
 }
 
 // Look up the URL
