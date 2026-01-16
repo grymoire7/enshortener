@@ -83,5 +83,5 @@ DB::execute(
 DB::execute('UPDATE urls SET click_count = click_count + 1 WHERE id = ?', [$url['id']]);
 
 // Redirect
-header("Location: {$url['long_url']}", true, 301);
+header("Location: {$url['long_url']}", true, 302);
 exit;
