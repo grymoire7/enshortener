@@ -13,7 +13,7 @@
     "watch:css": "tailwindcss -i css/input.css -o css/compiled.css --watch",
     "server:start": "php -S localhost:8000 server.php 2>&1",
     "reset:password": "touch reset.txt && echo 'Now you can visit /admin to reset the admin password.'",
-    "reset:database": "rm database.sqlite3"
+    "reset:database": "rm database.sqlite3",
     "test:unit": "phpunit",
     "test:unit_details": "phpunit --display-all-issues",
     "test:syntax": "git ls-files '*.php' | xargs -n1 -P4 php -l"
