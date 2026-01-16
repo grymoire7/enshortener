@@ -10,7 +10,9 @@
   },
   "scripts": {
     "build:css": "tailwindcss -i css/input.css -o css/compiled.css --minify",
-    "watch:css": "tailwindcss -i css/input.css -o css/compiled.css --watch"
+    "watch:css": "tailwindcss -i css/input.css -o css/compiled.css --watch",
+    "test:unit": "phpunit",
+    "test:syntax": "git ls-files '*.php' | xargs -n1 -P4 php -l"
   },
   "keywords": [],
   "author": "",
