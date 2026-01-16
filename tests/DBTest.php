@@ -151,4 +151,83 @@ class DBTest extends TestCase
         $this->assertInstanceOf(PDOStatement::class, $stmt);
         $this->assertEquals('test', $stmt->fetch()['key']);
     }
+
+    // createDatabase tests
+    public function testCreateDatabaseCreatesFile(): void
+    {
+        $newDbPath = sys_get_temp_dir() . '/test_create_db_' . uniqid() . '.sqlite';
+        $config = ['db_path' => $newDbPath];
+
+        $this->assertFileDoesNotExist($newDbPath);
+
+        DB::createDatabase($config);
+
+        $this->assertFileExists($newDbPath);
+
+        // Cleanup
+        unlink($newDbPath);
+    }
+
+    public function testCreateDatabaseCreatesSchema(): void
+    {
+        $newDbPath = sys_get_temp_dir() . '/test_create_db_' . uniqid() . '.sqlite';
+        $config = ['db_path' => $newDbPath];
+
+        DB::createDatabase($config);
+
+        // Verify tables exist
+        $tables = DB::fetchAll("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name");
+        $tableNames = array_column($tables, 'name');
+
+        $this->assertContains('urls', $tableNames);
+        $this->assertContains('clicks', $tableNames);
+        $this->assertContains('settings', $tableNames);
+
+        // Cleanup
+        unlink($newDbPath);
+    }
+
+    public function testCreateDatabaseInsertsInitialSettings(): void
+    {
+        $newDbPath = sys_get_temp_dir() . '/test_create_db_' . uniqid() . '.sqlite';
+        $config = ['db_path' => $newDbPath];
+
+        DB::createDatabase($config);
+
+        $result = DB::fetch('SELECT value FROM settings WHERE key = ?', ['admin_password_hash']);
+
+        $this->assertIsArray($result);
+        $this->assertEquals('', $result['value']); // Should be empty string initially
+
+        // Cleanup
+        unlink($newDbPath);
+    }
+
+    public function testCreateDatabaseReturnsConnection(): void
+    {
+        $newDbPath = sys_get_temp_dir() . '/test_create_db_' . uniqid() . '.sqlite';
+        $config = ['db_path' => $newDbPath];
+
+        $pdo = DB::createDatabase($config);
+
+        $this->assertInstanceOf(PDO::class, $pdo);
+
+        // Cleanup
+        unlink($newDbPath);
+    }
+
+    public function testInitThrowsWhenDatabaseMissing(): void
+    {
+        $this->expectException(PDOException::class);
+
+        $missingDbPath = sys_get_temp_dir() . '/nonexistent_' . uniqid() . '.sqlite';
+        $config = ['db_path' => $missingDbPath];
+
+        // Reset static PDO
+        $reflection = new ReflectionClass(DB::class);
+        $property = $reflection->getProperty('pdo');
+        $property->setValue(null, null);
+
+        DB::init($config);
+    }
 }

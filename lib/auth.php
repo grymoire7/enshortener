@@ -54,7 +54,3 @@ function is_setup_complete() {
     $result = DB::fetch('SELECT value FROM settings WHERE key = ?', ['admin_password_hash']);
     return $result && !empty($result['value']);
 }
-
-function setup_file_exists() {
-    return file_exists(__DIR__ . '/../setup.txt');
-}

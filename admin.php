@@ -13,17 +13,92 @@ require_once __DIR__ . '/lib/auth.php';
 require_once __DIR__ . '/router.php';
 
 $config = require __DIR__ . '/config.php';
-$db = DB::init($config);
 
-$router = new Router();
+// Initialize database, create if missing
+try {
+    $db = DB::init($config);
+} catch (PDOException $e) {
+    try {
+        $db = DB::createDatabase($config);
+    } catch (PDOException $createError) {
+        // Show error page with troubleshooting
+        http_response_code(500);
+        echo <<<HTML
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Setup Failed</title>
+    <link rel="stylesheet" href="/css/compiled.css">
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded-lg shadow-md max-w-lg">
+        <h1 class="text-2xl font-bold text-red-600 mb-4">Setup Failed - Database Creation Error</h1>
+        <p class="mb-4">Possible fixes:</p>
+        <ul class="list-disc pl-6 mb-4 space-y-1">
+            <li>Check directory is writable (chmod 755 or 775)</li>
+            <li>Verify disk space available</li>
+            <li>Ensure SQLite3 extension enabled</li>
+        </ul>
+        <p class="text-gray-600 text-sm">Error: {$createError->getMessage()}</p>
+    </div>
+</body>
+</html>
+HTML;
+        exit;
+    }
+}
 
 // Check if setup is needed
-if (!is_setup_complete()) {
-    require_once __DIR__ . '/lib/setup.php';
-    generate_admin_password();
-    $password = get_setup_password();
-    die("Setup complete! Your admin password is: <strong>{$password}</strong><br>Save it and delete setup.txt");
+$needsSetup = !is_setup_complete() || file_exists(__DIR__ . '/reset.txt');
+
+if ($needsSetup) {
+    $isReset = file_exists(__DIR__ . '/reset.txt');
+
+    // Handle setup form submission
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && strpos($_SERVER['REQUEST_URI'], '/admin/setup') !== false) {
+        require_csrf();
+
+        $password = $_POST['password'] ?? '';
+        $confirm = $_POST['confirm_password'] ?? '';
+        $error = '';
+
+        if ($password !== $confirm) {
+            $error = 'Passwords do not match';
+        } elseif (strlen($password) < 8) {
+            $error = 'Password must be at least 8 characters';
+        }
+
+        if ($error) {
+            require_once __DIR__ . '/views/admin_setup.php';
+            render_setup_page($isReset, $error);
+            exit;
+        }
+
+        // Hash and save password
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+        DB::execute('UPDATE settings SET value = ? WHERE key = ?', [$hash, 'admin_password_hash']);
+
+        // Delete reset.txt if exists
+        $resetFile = __DIR__ . '/reset.txt';
+        if (file_exists($resetFile)) {
+            unlink($resetFile);
+        }
+
+        // Auto-login
+        $_SESSION['admin_logged_in'] = true;
+        $_SESSION['flash_success'] = $isReset ? 'Password reset successfully' : 'Setup complete! Welcome to your URL shortener.';
+
+        header('Location: /admin');
+        exit;
+    }
+
+    // Show setup form (for GET requests or any non-setup POST)
+    require_once __DIR__ . '/views/admin_setup.php';
+    render_setup_page($isReset);
+    exit;
 }
+
+$router = new Router();
 
 // GET /login - Show login form
 $router->get('/login', function() {

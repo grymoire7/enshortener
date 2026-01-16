@@ -2,7 +2,6 @@
 // views/admin_layout.php
 function render_admin_layout($title, $content, $active = '', $flash = null) {
     $csrf_token = csrf_token();
-    $setup_warning = setup_file_exists() ? '<div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4">Warning: setup.txt still exists. Delete it after saving your password!</div>' : '';
     $flash_html = $flash ? '<div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4">' . htmlspecialchars($flash) . '</div>' : '';
 
     $nav_items = [
@@ -57,7 +56,6 @@ function render_admin_layout($title, $content, $active = '', $flash = null) {
 
         <!-- Main content -->
         <main class="admin-main p-4 md:p-8">
-            {$setup_warning}
             {$flash_html}
             {$content}
         </main>

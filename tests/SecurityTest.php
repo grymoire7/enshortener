@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 require_once __DIR__ . '/../lib/csrf.php';
 require_once __DIR__ . '/../lib/auth.php';
 require_once __DIR__ . '/../lib/db.php';
-require_once __DIR__ . '/../lib/setup.php';
 
 class SecurityTest extends TestCase
 {
@@ -96,41 +95,6 @@ class SecurityTest extends TestCase
     }
 
     // Setup Tests
-    public function testGenerateAdminPasswordCreatesPassword(): void
-    {
-        global $config;
-        $config = $this->config;
-
-        $password = generate_admin_password();
-        $this->assertIsString($password);
-        $this->assertEquals(32, strlen($password)); // 16 bytes = 32 hex chars
-    }
-
-    public function testGenerateAdminPasswordSavesToDatabase(): void
-    {
-        global $config;
-        $config = $this->config;
-
-        generate_admin_password();
-
-        $result = DB::fetch('SELECT value FROM settings WHERE key = ?', ['admin_password_hash']);
-
-        $this->assertIsArray($result);
-        $this->assertNotEmpty($result['value']);
-        $this->assertStringStartsWith('$', $result['value']); // bcrypt hash starts with $
-    }
-
-    public function testGetSetupPasswordRetrievesPassword(): void
-    {
-        global $config;
-        $config = $this->config;
-
-        $password = generate_admin_password();
-        $retrieved = get_setup_password();
-
-        $this->assertEquals($password, $retrieved);
-    }
-
     public function testIsSetupCompleteReturnsFalseWhenNoPassword(): void
     {
         global $config;
@@ -145,7 +109,10 @@ class SecurityTest extends TestCase
         global $config;
         $config = $this->config;
 
-        generate_admin_password();
+        DB::init($this->config);
+        $hash = password_hash('testpassword', PASSWORD_DEFAULT);
+        DB::execute('UPDATE settings SET value = ? WHERE key = ?', [$hash, 'admin_password_hash']);
+
         $this->assertTrue(is_setup_complete());
     }
 
@@ -155,7 +122,10 @@ class SecurityTest extends TestCase
         global $config;
         $config = $this->config;
 
-        $password = generate_admin_password();
+        DB::init($this->config);
+        $password = 'testpassword123';
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+        DB::execute('UPDATE settings SET value = ? WHERE key = ?', [$hash, 'admin_password_hash']);
 
         $result = admin_login($password);
         $this->assertTrue($result);
@@ -167,7 +137,9 @@ class SecurityTest extends TestCase
         global $config;
         $config = $this->config;
 
-        generate_admin_password();
+        DB::init($this->config);
+        $hash = password_hash('correctpassword', PASSWORD_DEFAULT);
+        DB::execute('UPDATE settings SET value = ? WHERE key = ?', [$hash, 'admin_password_hash']);
 
         $result = admin_login('wrong_password');
         $this->assertFalse($result);
@@ -196,15 +168,5 @@ class SecurityTest extends TestCase
     public function testIsAdminLoggedInReturnsFalseWhenNotLoggedIn(): void
     {
         $this->assertFalse(is_admin_logged_in());
-    }
-
-    public function testSetupFileExistsReturnsTrueWhenFileExists(): void
-    {
-        $testFile = sys_get_temp_dir() . '/test_setup_' . uniqid() . '.txt';
-        file_put_contents($testFile, 'Admin password: test123');
-
-        // Mock the setup file path
-        $this->assertFileExists($testFile);
-        unlink($testFile);
     }
 }
