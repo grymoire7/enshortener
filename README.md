@@ -4,6 +4,8 @@ Enshortener is a URL shortener with analytics, designed for personal use on
 shared hosting. It is designed to be simple, secure, and easy to deploy. Just
 copy the files to your server and go.
 
+![Enshortener Screenshot](images/screenshot.png)
+
 ## Features
 
 - Create short URLs with custom slugs
