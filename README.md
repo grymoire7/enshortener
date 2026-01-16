@@ -120,16 +120,17 @@ npm run watch:css
 
 **Note:** The built `css/compiled.css` file is included in the repository, so you don't need to build CSS for deployment. The pre-built CSS is ready to use.
 
-### Running Unit Tests
+### Running Tests
 
 ```bash
-phpunit
-```
+# Run unit tests
+npm run test:unit
 
-### PHP Syntax Check
+# Run unit tests with detailed output
+npm run test:unit_details
 
-```bash
-git ls-files '*.php' | xargs -n1 -P4 php -l
+# Check PHP syntax
+npm run test:syntax
 ```
 
 ### Test Coverage

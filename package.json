@@ -12,6 +12,7 @@
     "build:css": "tailwindcss -i css/input.css -o css/compiled.css --minify",
     "watch:css": "tailwindcss -i css/input.css -o css/compiled.css --watch",
     "test:unit": "phpunit",
+    "test:unit_details": "phpunit --display-all-issues",
     "test:syntax": "git ls-files '*.php' | xargs -n1 -P4 php -l"
   },
   "keywords": [],
