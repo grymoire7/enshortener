@@ -23,15 +23,24 @@ function render_settings_page($db) {
             <input type="hidden" name="csrf_token" value="{$csrf_token}">
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2">Current Password</label>
-                <input type="password" name="current_password" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                <div class="relative">
+                    <input type="password" name="current_password" class="w-full px-3 py-2 pr-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    <button type="button" onclick="let p=this.previousElementSibling;p.type=p.type==='password'?'text':'password'" class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600" title="Toggle visibility">👁</button>
+                </div>
             </div>
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2">New Password</label>
-                <input type="password" name="new_password" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required minlength="8">
+                <div class="relative">
+                    <input type="password" name="new_password" class="w-full px-3 py-2 pr-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required minlength="8">
+                    <button type="button" onclick="let p=this.previousElementSibling;p.type=p.type==='password'?'text':'password'" class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600" title="Toggle visibility">👁</button>
+                </div>
             </div>
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2">Confirm New Password</label>
-                <input type="password" name="confirm_password" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required minlength="8">
+                <div class="relative">
+                    <input type="password" name="confirm_password" class="w-full px-3 py-2 pr-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required minlength="8">
+                    <button type="button" onclick="let p=this.previousElementSibling;p.type=p.type==='password'?'text':'password'" class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600" title="Toggle visibility">👁</button>
+                </div>
             </div>
             <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Change Password</button>
         </form>
