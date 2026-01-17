@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/lib/db.php';
+require_once __DIR__ . '/views/404.php';
 
 $config = require __DIR__ . '/config.php';
 
@@ -66,7 +67,8 @@ $url = DB::fetch(
 
 if (!$url) {
     http_response_code(404);
-    die('404 - Short URL not found');
+    render_404();
+    exit;
 }
 
 // Record the click
