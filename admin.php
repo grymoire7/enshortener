@@ -11,6 +11,7 @@ require_once __DIR__ . '/lib/db.php';
 require_once __DIR__ . '/lib/csrf.php';
 require_once __DIR__ . '/lib/auth.php';
 require_once __DIR__ . '/router.php';
+require_once __DIR__ . '/views/404.php';
 
 $config = require __DIR__ . '/config.php';
 
@@ -276,5 +277,5 @@ if ($result === null) {
 
 if ($result === null) {
     http_response_code(404);
-    echo '404 - Not Found';
+    render_404();
 }
