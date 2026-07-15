@@ -38,7 +38,7 @@ function render_layout($title, $content, $flash = null) {
     })();
     </script>
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-50 dark:bg-gray-900">
     {$flash_html}
     {$content}
 </body>
