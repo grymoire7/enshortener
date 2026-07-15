@@ -56,16 +56,8 @@ function render_settings_page($db) {
             if (e.target.name === 'theme') {
                 localStorage.setItem('theme', e.target.value);
 
-                // Re-resolve and apply theme
-                const saved = e.target.value;
-                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                const isDark = saved === 'dark' || (saved === 'system' && prefersDark);
-                document.documentElement.classList.toggle('dark', isDark);
-
-                // Update chart colors if on analytics page
-                if (window.updateChartColors) {
-                    window.updateChartColors();
-                }
+                // Notify Task 2's theme script to re-apply theme
+                window.dispatchEvent(new Event('storage'));
             }
         });
     })();
@@ -75,7 +67,7 @@ function render_settings_page($db) {
     {$success_html}
 
     <div class="bg-white dark:bg-gray-900 rounded-lg shadow p-6 mb-6">
-        <h2 class="text-xl font-semibold mb-4">Change Password</h2>
+        <h2 class="text-xl font-semibold mb-4 dark:text-gray-300">Change Password</h2>
         <form method="POST" action="/admin/settings/password" class="max-w-md">
             <input type="hidden" name="csrf_token" value="{$csrf_token}">
             <div class="mb-4">

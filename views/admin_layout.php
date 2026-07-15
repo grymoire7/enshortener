@@ -51,6 +51,19 @@ function render_admin_layout($title, $content, $active = '', $flash = null) {
                 }
             }
         });
+
+        // Listen for localStorage changes (from settings page or other tabs)
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'theme') {
+                const saved = e.newValue || 'system';
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                const isDark = saved === 'dark' || (saved === 'system' && prefersDark);
+                document.documentElement.classList.toggle('dark', isDark);
+                if (window.updateChartColors) {
+                    window.updateChartColors();
+                }
+            }
+        });
     })();
     </script>
 </head>
