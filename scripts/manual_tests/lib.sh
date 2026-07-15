@@ -48,3 +48,24 @@ is_dark_mode() {
   local result=$(rodney js "document.documentElement.classList.contains('dark')" 2>/dev/null)
   echo "$result"
 }
+
+# admin_login
+#
+# Logs into the admin panel with a known test password.
+# Assumes password has been set to 'test123' for testing.
+admin_login() {
+  local base_url="${1:-$BASE_URL}"
+
+  # First check if we're already logged in by visiting dashboard
+  rodney open "$base_url/admin" >/dev/null
+  rodney waitload >/dev/null
+
+  local current_url=$(rodney js "window.location.href" 2>/dev/null)
+
+  # If we're on login page, log in
+  if [[ "$current_url" == *"login"* ]]; then
+    rodney js "document.querySelector('input[name=\"password\"]').value = 'test123'" >/dev/null
+    rodney js "document.querySelector('form').submit()" >/dev/null
+    rodney waitload >/dev/null
+  fi
+}
