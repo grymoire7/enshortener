@@ -28,19 +28,19 @@ function render_dashboard($db, $flash = null) {
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
         <div class="bg-white dark:bg-gray-900 p-6 rounded-lg shadow">
             <div class="text-gray-500 dark:text-gray-400 text-sm">Total URLs</div>
-            <div class="text-3xl font-bold">{$total_urls}</div>
+            <div class="text-3xl font-bold text-gray-900 dark:text-gray-100">{$total_urls}</div>
         </div>
         <div class="bg-white dark:bg-gray-900 p-6 rounded-lg shadow">
             <div class="text-gray-500 dark:text-gray-400 text-sm">Total Clicks</div>
-            <div class="text-3xl font-bold">{$total_clicks}</div>
+            <div class="text-3xl font-bold text-gray-900 dark:text-gray-100">{$total_clicks}</div>
         </div>
         <div class="bg-white dark:bg-gray-900 p-6 rounded-lg shadow">
             <div class="text-gray-500 dark:text-gray-400 text-sm">Clicks Today</div>
-            <div class="text-3xl font-bold">{$clicks_today}</div>
+            <div class="text-3xl font-bold text-gray-900 dark:text-gray-100">{$clicks_today}</div>
         </div>
         <div class="bg-white dark:bg-gray-900 p-6 rounded-lg shadow">
             <div class="text-gray-500 dark:text-gray-400 text-sm">Clicks This Week</div>
-            <div class="text-3xl font-bold">{$clicks_week}</div>
+            <div class="text-3xl font-bold text-gray-900 dark:text-gray-100">{$clicks_week}</div>
         </div>
     </div>
 
@@ -53,10 +53,10 @@ function render_dashboard($db, $flash = null) {
         <table class="w-full">
             <thead>
                 <tr class="bg-gray-50 dark:bg-gray-800">
-                    <th class="text-left px-4 py-3">Short Code</th>
-                    <th class="text-left px-4 py-3">Long URL</th>
-                    <th class="text-left px-4 py-3">Clicks</th>
-                    <th class="text-left px-4 py-3">Created</th>
+                    <th class="text-left px-4 py-3 text-gray-900 dark:text-gray-100">Short Code</th>
+                    <th class="text-left px-4 py-3 text-gray-900 dark:text-gray-100">Long URL</th>
+                    <th class="text-left px-4 py-3 text-gray-900 dark:text-gray-100">Clicks</th>
+                    <th class="text-left px-4 py-3 text-gray-900 dark:text-gray-100">Created</th>
                 </tr>
             </thead>
             <tbody>

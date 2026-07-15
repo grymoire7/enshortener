@@ -57,11 +57,11 @@ function render_urls_page($db, $page = 1, $flash = null) {
         <table class="w-full">
             <thead>
                 <tr class="bg-gray-50 dark:bg-gray-800">
-                    <th class="text-left px-4 py-3">Short Code</th>
-                    <th class="text-left px-4 py-3">Long URL</th>
-                    <th class="text-left px-4 py-3">Clicks</th>
-                    <th class="text-left px-4 py-3">Created</th>
-                    <th class="text-left px-4 py-3">Actions</th>
+                    <th class="text-left px-4 py-3 text-gray-900 dark:text-gray-100">Short Code</th>
+                    <th class="text-left px-4 py-3 text-gray-900 dark:text-gray-100">Long URL</th>
+                    <th class="text-left px-4 py-3 text-gray-900 dark:text-gray-100">Clicks</th>
+                    <th class="text-left px-4 py-3 text-gray-900 dark:text-gray-100">Created</th>
+                    <th class="text-left px-4 py-3 text-gray-900 dark:text-gray-100">Actions</th>
                 </tr>
             </thead>
             <tbody>
