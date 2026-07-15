@@ -100,8 +100,8 @@ function render_analytics_page($db, $url_id) {
             <table class="w-full">
                 <thead>
                     <tr class="bg-gray-50 dark:bg-gray-800">
-                        <th class="text-left px-4 py-2">Referrer</th>
-                        <th class="text-left px-4 py-2">Clicks</th>
+                        <th class="text-left px-4 py-2 text-gray-900 dark:text-gray-100">Referrer</th>
+                        <th class="text-left px-4 py-2 text-gray-900 dark:text-gray-100">Clicks</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -116,9 +116,9 @@ function render_analytics_page($db, $url_id) {
         <table class="w-full">
             <thead>
                 <tr class="bg-gray-50 dark:bg-gray-800">
-                    <th class="text-left px-4 py-2">Time</th>
-                    <th class="text-left px-4 py-2">Referrer</th>
-                    <th class="text-left px-4 py-2">User Agent</th>
+                    <th class="text-left px-4 py-2 text-gray-900 dark:text-gray-100">Time</th>
+                    <th class="text-left px-4 py-2 text-gray-900 dark:text-gray-100">Referrer</th>
+                    <th class="text-left px-4 py-2 text-gray-900 dark:text-gray-100">User Agent</th>
                 </tr>
             </thead>
             <tbody>
