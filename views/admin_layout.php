@@ -15,7 +15,7 @@ function render_admin_layout($title, $content, $active = '', $flash = null) {
         $is_active = $active === $path ? 'bg-blue-50 dark:bg-blue-900/30 border-r-4 border-blue-500' : 'hover:bg-gray-100 dark:hover:bg-gray-800';
         $nav_html .= '<a href="/admin' . $path . '" class="flex items-center px-4 py-3 ' . $is_active . '">';
         $nav_html .= '<span class="mr-3">' . $item['icon'] . '</span>';
-        $nav_html .= '<span>' . $item['label'] . '</span>';
+        $nav_html .= '<span class="text-gray-900 dark:text-gray-100">' . $item['label'] . '</span>';
         $nav_html .= '</a>';
     }
 
@@ -29,39 +29,35 @@ function render_admin_layout($title, $content, $active = '', $flash = null) {
     <link rel="stylesheet" href="/css/compiled.css">
     <script>
     (function() {
-        // Read saved preference, default to 'system'
-        const saved = localStorage.getItem('theme') || 'system';
+        // Global theme resolution function - can be called from anywhere
+        window.applyTheme = function() {
+            const saved = localStorage.getItem('theme') || 'system';
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const isDark = saved === 'dark' || (saved === 'system' && prefersDark);
+            document.documentElement.classList.toggle('dark', isDark);
 
-        // Check OS preference
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            // Update Chart.js instances if they exist
+            if (window.updateChartColors) {
+                window.updateChartColors();
+            }
 
-        // Resolve actual theme
-        const isDark = saved === 'dark' || (saved === 'system' && prefersDark);
+            return isDark;
+        };
 
-        // Apply before paint
-        document.documentElement.classList.toggle('dark', isDark);
+        // Apply theme on page load
+        applyTheme();
 
         // Listen for OS preference changes (only matters if saved === 'system')
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
             if (localStorage.getItem('theme') === 'system') {
-                document.documentElement.classList.toggle('dark', e.matches);
-                // Optional: Update Chart.js instances if they exist
-                if (window.updateChartColors) {
-                    window.updateChartColors();
-                }
+                applyTheme();
             }
         });
 
-        // Listen for localStorage changes (from settings page or other tabs)
+        // Listen for localStorage changes from other tabs
         window.addEventListener('storage', (e) => {
-            if (e.key === 'theme') {
-                const saved = e.newValue || 'system';
-                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                const isDark = saved === 'dark' || (saved === 'system' && prefersDark);
-                document.documentElement.classList.toggle('dark', isDark);
-                if (window.updateChartColors) {
-                    window.updateChartColors();
-                }
+            if (e.key === 'theme' || e.key === null) {
+                applyTheme();
             }
         });
     })();

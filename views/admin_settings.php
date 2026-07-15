@@ -51,13 +51,15 @@ function render_settings_page($db) {
         const current = localStorage.getItem('theme') || 'system';
         form.querySelector(`input[value="\${current}"]`).checked = true;
 
-        // Handle theme changes
+        // Handle theme changes - apply immediately without page reload
         form.addEventListener('change', (e) => {
             if (e.target.name === 'theme') {
                 localStorage.setItem('theme', e.target.value);
 
-                // Notify Task 2's theme script to re-apply theme
-                window.dispatchEvent(new Event('storage'));
+                // Call the global theme resolution function to apply changes instantly
+                if (window.applyTheme) {
+                    window.applyTheme();
+                }
             }
         });
     })();
