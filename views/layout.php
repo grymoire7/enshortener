@@ -11,6 +11,32 @@ function render_layout($title, $content, $flash = null) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{$title} - Admin</title>
     <link rel="stylesheet" href="/css/compiled.css">
+    <script>
+    (function() {
+        // Read saved preference, default to 'system'
+        const saved = localStorage.getItem('theme') || 'system';
+
+        // Check OS preference
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        // Resolve actual theme
+        const isDark = saved === 'dark' || (saved === 'system' && prefersDark);
+
+        // Apply before paint
+        document.documentElement.classList.toggle('dark', isDark);
+
+        // Listen for OS preference changes (only matters if saved === 'system')
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            if (localStorage.getItem('theme') === 'system') {
+                document.documentElement.classList.toggle('dark', e.matches);
+                // Optional: Update Chart.js instances if they exist
+                if (window.updateChartColors) {
+                    window.updateChartColors();
+                }
+            }
+        });
+    })();
+    </script>
 </head>
 <body class="bg-gray-50">
     {$flash_html}
