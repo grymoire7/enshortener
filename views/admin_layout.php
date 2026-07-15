@@ -12,7 +12,7 @@ function render_admin_layout($title, $content, $active = '', $flash = null) {
 
     $nav_html = '';
     foreach ($nav_items as $path => $item) {
-        $is_active = $active === $path ? 'bg-blue-50 border-r-4 border-blue-500' : 'hover:bg-gray-100';
+        $is_active = $active === $path ? 'bg-blue-50 dark:bg-blue-900/30 border-r-4 border-blue-500' : 'hover:bg-gray-100 dark:hover:bg-gray-800';
         $nav_html .= '<a href="/admin' . $path . '" class="flex items-center px-4 py-3 ' . $is_active . '">';
         $nav_html .= '<span class="mr-3">' . $item['icon'] . '</span>';
         $nav_html .= '<span>' . $item['label'] . '</span>';
@@ -54,10 +54,10 @@ function render_admin_layout($title, $content, $active = '', $flash = null) {
     })();
     </script>
 </head>
-<body class="bg-gray-50 m-0 p-0">
+<body class="bg-gray-50 dark:bg-gray-900 m-0 p-0">
     <div class="admin-layout">
         <!-- Masthead -->
-        <header class="admin-masthead bg-white shadow-sm border-b">
+        <header class="admin-masthead bg-white dark:bg-gray-900 shadow-sm border-b dark:border-gray-700">
             <div class="flex items-center justify-between px-4 md:px-8 py-4">
                 <div class="flex items-center gap-4">
                     <button id="sidebarToggle" class="md:hidden text-gray-600 p-2">☰</button>
@@ -65,15 +65,15 @@ function render_admin_layout($title, $content, $active = '', $flash = null) {
                 </div>
                 <form method="POST" action="/admin/logout" class="inline">
                     <input type="hidden" name="csrf_token" value="{$csrf_token}">
-                    <button type="submit" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded hover:bg-gray-100">Logout</button>
+                    <button type="submit" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800">Logout</button>
                 </form>
             </div>
         </header>
 
         <!-- Sidebar -->
-        <aside id="sidebar" class="admin-sidebar bg-white border-r">
+        <aside id="sidebar" class="admin-sidebar bg-white dark:bg-gray-900 border-r dark:border-gray-700">
             <div class="flex justify-end md:hidden p-2 border-b">
-                <button id="sidebarClose" class="text-gray-500">✕</button>
+                <button id="sidebarClose" class="text-gray-500 dark:text-gray-400">✕</button>
             </div>
             <nav class="py-4">
                 {$nav_html}
