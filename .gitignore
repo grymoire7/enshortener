@@ -25,6 +25,7 @@
 
 # Ignore local Claude AI settings
 /.claude/settings.local.json
+.superpowers/
 
 # Git worktrees
 .worktrees/
