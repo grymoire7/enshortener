@@ -1,0 +1,57 @@
+name: Deploy to DreamHost
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Run tests
+        run: npm run test:unit
+
+      - name: Deploy to DreamHost via SFTP
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.6
+        with:
+          server: ${{ secrets.DREAMHOST_HOST }}
+          username: ${{ secrets.DREAMHOST_USERNAME }}
+          password: ${{ secrets.DREAMHOST_PASSWORD }}
+          port: 22
+          local_path: "./*"
+          remote_path: "/home/${{ secrets.DREAMHOST_USERNAME }}/trcy.cc/"
+          delete_remote_files: false
+          sftp_only: true
+          rsyncArgs: |
+            --exclude=.*
+            --exclude=AGENTS.md
+            --exclude=CHANGELOG.md
+            --exclude=CLAUDE.md
+            --exclude=LICENSE
+            --exclude=README.md
+            --exclude=composer.json
+            --exclude=composer.lock
+            --exclude=phpunit.xml
+            --exclude=server.php
+            --exclude=tailwind.config.js
+            --exclude=package.json
+            --exclude=package-lock.json
+            --exclude=database.sqlite
+            --exclude=docs
+            --exclude=scripts
+            --exclude=tests
+            --exclude=tmp
+            --exclude=vendor
+            --exclude=node_modules
+            --exclude=css/input.css
