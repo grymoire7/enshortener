@@ -11,12 +11,12 @@ function render_urls_page($db, $page = 1, $flash = null) {
     $rows = '';
     foreach ($urls as $url) {
         $rows .= '<tr class="border-b hover:bg-gray-50">';
-        $rows .= '<td class="px-4 py-3"><a href="/' . htmlspecialchars($url['short_code']) . '" target="_blank" class="text-blue-500 hover:underline">/' . htmlspecialchars($url['short_code']) . '</a></td>';
+        $rows .= '<td class="px-4 py-3"><a href="/admin/analytics/' . $url['id'] . '" class="text-blue-500 hover:underline">/' . htmlspecialchars($url['short_code']) . '</a></td>';
         $rows .= '<td class="px-4 py-3 truncate max-w-md"><a href="' . htmlspecialchars($url['long_url']) . '" target="_blank" class="text-gray-600 hover:underline">' . htmlspecialchars($url['long_url']) . '</a></td>';
         $rows .= '<td class="px-4 py-3">' . $url['click_count'] . '</td>';
         $rows .= '<td class="px-4 py-3">' . date('M j, Y', strtotime($url['created_at'])) . '</td>';
         $rows .= '<td class="px-4 py-3">';
-        $rows .= '<a href="/admin/analytics/' . $url['id'] . '" class="text-blue-500 hover:underline mr-3">Analytics</a>';
+        $rows .= '<a href="/' . htmlspecialchars($url['short_code']) . '" target="_blank" class="text-blue-500 hover:underline mr-3">Follow</a>';
         $rows .= '<button onclick="deleteUrl(' . $url['id'] . ', \'' . htmlspecialchars($url['short_code'], ENT_QUOTES) . '\')" class="text-red-500 hover:underline">Delete</button>';
         $rows .= '</td></tr>';
     }
