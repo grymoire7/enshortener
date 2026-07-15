@@ -12,11 +12,11 @@ function render_settings_page($db) {
 
     $content = <<<HTML
 <div>
-    <h1 class="text-3xl font-bold mb-6">Settings</h1>
+    <h1 class="text-3xl font-bold mb-6 text-gray-900 dark:text-gray-100">Settings</h1>
 
     <!-- Theme selector section -->
     <div class="bg-white dark:bg-gray-900 rounded-lg shadow p-6 mb-6">
-        <h2 class="text-xl font-semibold mb-4">Appearance</h2>
+        <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">Appearance</h2>
 
         <form id="themeForm" class="max-w-md">
             <div class="space-y-3">
@@ -67,7 +67,7 @@ function render_settings_page($db) {
     {$success_html}
 
     <div class="bg-white dark:bg-gray-900 rounded-lg shadow p-6 mb-6">
-        <h2 class="text-xl font-semibold mb-4 dark:text-gray-300">Change Password</h2>
+        <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">Change Password</h2>
         <form method="POST" action="/admin/settings/password" class="max-w-md">
             <input type="hidden" name="csrf_token" value="{$csrf_token}">
             <div class="mb-4">
@@ -91,16 +91,16 @@ function render_settings_page($db) {
                     <button type="button" onclick="let p=this.previousElementSibling;p.type=p.type==='password'?'text':'password'" class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" title="Toggle visibility">👁</button>
                 </div>
             </div>
-            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Change Password</button>
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700">Change Password</button>
         </form>
     </div>
 
     <div class="bg-white dark:bg-gray-900 rounded-lg shadow p-6">
-        <h2 class="text-xl font-semibold mb-4 text-red-600">Danger Zone</h2>
+        <h2 class="text-xl font-semibold mb-4 text-red-600 dark:text-red-400">Danger Zone</h2>
         <p class="text-gray-600 dark:text-gray-400 mb-4">Delete all data and reset the application. This cannot be undone.</p>
         <form method="POST" action="/admin/settings/reset" onsubmit="return confirm('Are you sure? This will delete all URLs and data!')">
             <input type="hidden" name="csrf_token" value="{$csrf_token}">
-            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">Reset Everything</button>
+            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 dark:hover:bg-red-700">Reset Everything</button>
         </form>
     </div>
 </div>
