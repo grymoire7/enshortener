@@ -10,7 +10,7 @@ copy the files to your server and go.
 
 - Create short URLs with custom slugs
 - Track clicks with referrer and user agent analytics
-- Clean admin interface
+- Clean admin interface with dark mode support
 - SQLite database (no separate server needed)
 - Dead simple deployment
 
@@ -46,6 +46,12 @@ copy the files to your server and go.
 1. Go to the URLs page (`/admin/urls`)
 2. Click "Analytics" next to any URL
 3. View clicks over time, top referrers, and recent clicks
+
+## Dark Mode
+
+The admin interface supports light, dark, and system (follows OS preference) themes.
+Change your theme preference in Settings > Appearance. Your choice is saved in your
+browser's local storage and persists across sessions.
 
 ## Security
 
