@@ -1,0 +1,15 @@
+[tasks.build]
+description = "Minify the compiled Tailwind CSS"
+run = "npm run build:css"
+
+[tasks.test]
+description = "Run the PHPUnit suite"
+run = "npm run test:unit"
+
+[tasks.lint]
+description = "PHP syntax check across all tracked PHP files"
+run = "npm run test:syntax"
+
+[tasks."integration-test"]
+description = "Dark-mode browser regression test (requires the web daemon running via pitchfork first: pitchfork start)"
+run = "./scripts/manual_tests/dark_mode.sh"
