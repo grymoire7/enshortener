@@ -1,135 +1,75 @@
-# Enshortener - URL Shortener
+# Enshortener
 
-Enshortener is a URL shortener with analytics, designed for personal use on
-shared hosting. It is designed to be simple, secure, and easy to deploy. Just
-copy the files to your server and go.
+A self-hosted URL shortener with click analytics, built for personal use on shared hosting.
+
+## Overview
+
+Enshortener lets you create short URLs with custom slugs and track clicks with referrer and user agent analytics, all from a clean admin interface. It's built to be simple and secure: copy the files to your server, visit `/admin`, and you're up and running. Data lives in a single SQLite database, so there's no separate database server to manage.
 
 ![Enshortener Screenshot](images/screenshot.png)
 
-## Features
+The admin interface supports light, dark, and system (follows OS preference) themes. Your choice is saved in the browser's local storage and persists across sessions, and you can change it any time in Settings > Appearance.
 
-- Create short URLs with custom slugs
-- Track clicks with referrer and user agent analytics
-- Clean admin interface with dark mode support
-- SQLite database (no separate server needed)
-- Dead simple deployment
+Security touches include bcrypt password hashing, CSRF protection on all forms, prepared statements against SQL injection, and output escaping against XSS.
 
-## Requirements
+## Stack
+
+PHP 8.1+, SQLite3, Tailwind CSS
+
+## Setup
+
+**Requirements:**
 
 - PHP 8.1 or higher
 - SQLite3 extension
 - Apache with .htaccess support (or equivalent)
 
-### Development Requirements
+**Development requirements:**
 
-- Node.js 18+ and npm (for building CSS)
+- Node.js 18+ and npm, for building the Tailwind CSS
 
-## Installation
+### First-time setup
 
-1. Upload all files to your web server
-2. Ensure `database.sqlite` is writable (chmod 666)
-3. Visit `https://{{your website}}/admin` in your browser
-4. Set your admin password on the setup screen
-5. Login with your password
+1. Upload all files to your web server.
+2. Make sure `database.sqlite` is writable (`chmod 666 database.sqlite`).
+3. Visit `/admin` in your browser.
+4. Set your admin password on the setup screen, then log in.
 
-## Usage
-
-### Creating a URL
-
-1. Login to the admin panel at `/admin`
-2. Click "Create New URL"
-3. Enter your long URL and optionally a custom short code
-4. Click "Create"
-
-### Viewing Analytics
-
-1. Go to the URLs page (`/admin/urls`)
-2. Click "Analytics" next to any URL
-3. View clicks over time, top referrers, and recent clicks
-
-## Dark Mode
-
-The admin interface supports light, dark, and system (follows OS preference) themes.
-Change your theme preference in Settings > Appearance. Your choice is saved in your
-browser's local storage and persists across sessions.
-
-## Security
-
-- Admin password hashed with bcrypt
-- CSRF protection on all forms
-- SQL injection prevention with prepared statements
-- XSS prevention with output escaping
-
-## Local Development and Testing
-
-You can test the application locally using PHP's built-in web server:
+For local development, install the npm dependencies so the Tailwind watcher has what it needs:
 
 ```bash
-# Start the development server
-npm run server:start
-```
-
-Then visit:
-- http://localhost:8000/ - Home page
-- http://localhost:8000/admin - Admin panel
-- http://localhost:8000/abc - Short URL redirect (where `abc` is a short code)
-
-**Note:** The `server.php` file is a router script for local development only.
-On production servers with Apache, the `.htaccess` file handles URL rewriting.
-
-### Resetting the Admin Password
-
-To reset your admin password in local development:
-
-```bash
-npm run reset:password
-```
-
-To reset your admin password on hosted environments:
-
-1. Create a file named `reset.txt` in the root directory.
-2. Visit `/admin` in your browser. This will prompt you to set a new password and then it will delete the `reset.txt` file.
-
-### Resetting the Database
-
-To start fresh locally:
-
-```bash
-npm run reset:database
-# OR: rm database.sqlite
-# Then visit /admin to set up again
-```
-
-### Building CSS
-
-The application uses Tailwind CSS for styling. To build the CSS:
-
-```bash
-# Install dependencies
 npm install
-
-# Build CSS (one-time)
-npm run build:css
-
-# Watch for changes and rebuild automatically
-npm run watch:css
 ```
 
-**Note:** The built `css/compiled.css` file is included in the repository, so
-you don't need to build CSS for deployment. The pre-built CSS is ready to use.
+The built `css/compiled.css` file is committed to the repo, so you don't need to build CSS just to deploy. The pre-built CSS is ready to use as-is.
 
-### Running Tests
+### Using the app
 
-```bash
-# Run unit tests
-npm run test:unit
+Once you're logged into `/admin`, click "Create New URL" to shorten a link, optionally with a custom short code. To see how a link is performing, open the URLs page and click "Analytics" next to it for clicks over time, top referrers, and recent clicks.
 
-# Run unit tests with detailed output
-npm run test:unit_details
+## Tasks
 
-# Check PHP syntax
-npm run test:syntax
-```
+Run `pitchfork start` to run the app locally. It starts two daemons:
+
+- `web`: serves the app with PHP's built-in server at `http://localhost:8000`, with the home page at `/`, the admin panel at `/admin`, and short URL redirects at `/<code>`. Routed through `server.php`, which is for local dev only; in production, Apache's `.htaccess` handles the routing instead.
+- `assets`: watches the Tailwind source and rebuilds `css/compiled.css` on changes.
+
+Other tasks, defined in `mise.toml`:
+
+- `mise run build`: minify the compiled Tailwind CSS.
+- `mise run test`: run the PHPUnit suite.
+- `mise run lint`: PHP syntax check across all tracked PHP files.
+- `mise run integration-test`: dark-mode browser regression test. Requires the `web` daemon running first, via `pitchfork start`.
+
+A few other npm scripts round out day-to-day work that aren't wrapped by mise:
+
+- `npm run reset:password`: creates a `reset.txt` file locally so the next visit to `/admin` prompts for a new password. On hosted environments, create that file directly on the server instead.
+- `npm run reset:database`: deletes `database.sqlite` so you can set up again from scratch.
+- `npm run test:unit_details`: runs the PHPUnit suite with detailed output.
+
+## Documentation
+
+See [docs/](docs) for design plans and specs, and [CHANGELOG.md](CHANGELOG.md) for release history.
 
 ## License
 
